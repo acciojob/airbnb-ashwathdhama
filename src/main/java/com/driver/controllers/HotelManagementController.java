@@ -115,11 +115,11 @@ public class HotelManagementController<BookingRepository, aadharCardNo> {
         // In this function, return the bookings done by a person
 
         Object bookingRepository = new Object();
-        List<Booking> bookings = bookingRepository.toString(aadharCardNo);
+        List<String> bookings = getBookings();
         List<String> bookingIds = new ArrayList<>();
 
-        for (Booking booking : bookings) {
-            bookingIds.add(booking.getBookingId());
+        for (String booking : bookings) {
+            bookingIds.add(booking);
         }
 
         return bookingIds;
