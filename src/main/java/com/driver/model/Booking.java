@@ -29,6 +29,10 @@ public class Booking {
         this.hotelName = hotelName;
     }
 
+    public static Hotel getBookings() {
+        return null;
+    }
+
     public String getBookingId() {
         return bookingId;
     }

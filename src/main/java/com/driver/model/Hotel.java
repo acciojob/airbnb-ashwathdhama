@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Hotel {
 
+    public static Hotel hotels;
     private String hotelName; //This will be the primary key and will be unique for each hotel in hotelDb
     private int availableRooms;
 
@@ -19,7 +20,13 @@ public class Hotel {
     }
 
     public static Hotel get(String hotelName) {
+        return hotels;
     }
+
+    public static Hotel getHotels() {
+        return null;
+    }
+
 
     public String getHotelName() {
         return hotelName;
@@ -53,10 +60,11 @@ public class Hotel {
         this.pricePerNight = pricePerNight;
     }
 
-    public boolean containsKey(String hotelName) {
+    public boolean containsKey() {
+        return false;
     }
 
-    public void put(String hotelName, Hotel hotel) {
+    public void put(String hotelName, Hotel hotels) {
     }
 
     public int getRoomsAvailable() {
@@ -65,5 +73,9 @@ public class Hotel {
 
     public void setRoomsAvailable(int i) {
 
+    }
+
+    public Hotel[] values() {
+        return hotels.values();
     }
 }

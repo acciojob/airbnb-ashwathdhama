@@ -13,35 +13,31 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
 
+import static com.driver.model.Hotel.hotels;
+
 @RestController
 @RequestMapping("/hotel")
 public class HotelManagementController {
 
 
     @PostMapping("/add-hotel")
-    public String addHotel(@RequestBody Hotel hotel){
-
-        //You need to add an hotel to the database
-        //incase the hotelName is null or the hotel Object is null return an empty a FAILURE
-        //Incase somebody is trying to add the duplicate hotelName return FAILURE
-        //in all other cases return SUCCESS after successfully adding the hotel to the hotelDb.
+    public String addHotel(@RequestBody Hotel hotel) {
         if (hotel == null || hotel.getHotelName() == null) {
             return "FAILURE";
         }
 
-        if (hotel.containsKey(hotel.getHotelName())) {
+        if (hotels.containsKey()) {
             return "FAILURE";
         }
 
-        hotel.put(hotel.getHotelName(), hotel);
+        hotels.put(hotel.getHotelName(), hotel);
         return "SUCCESS";
-
 
 
     }
 
     @PostMapping("/add-user")
-    public Integer addUser(@RequestBody User user){
+    public Integer addUser(@RequestBody User user) {
 
         //You need to add a User Object to the database
         //Assume that user will always be a valid user and return the aadharCardNo of the user
@@ -53,7 +49,7 @@ public class HotelManagementController {
     }
 
     @GetMapping("/get-hotel-with-most-facilities")
-    public String getHotelWithMostFacilities(){
+    public String getHotelWithMostFacilities() {
 
         //Out of all the hotels we have added so far, we need to find the hotelName with most no of facilities
         //Incase there is a tie return the lexicographically smaller hotelName
@@ -63,14 +59,14 @@ public class HotelManagementController {
         int maxFacilityCount = 0;
 
         HashMap<Object, Object> hotel;
-        for (Hotel hotel : hotel.values()) {
-            int facilityCount = hotel.getFacilities().size();
+        for (Hotel hotels : hotels.values()) {
+            int facilityCount = hotels.getFacilities().size();
 
             if (facilityCount > maxFacilityCount) {
                 maxFacilityCount = facilityCount;
-                result = hotel.getHotelName();
-            } else if (facilityCount == maxFacilityCount && hotel.getHotelName().compareTo(result) < 0) {
-                result = hotel.getHotelName();
+                result = hotels.getHotelName();
+            } else if (facilityCount == maxFacilityCount && hotels.getHotelName().compareTo(result) < 0) {
+                result = hotels.getHotelName();
             }
         }
 
@@ -78,7 +74,7 @@ public class HotelManagementController {
     }
 
     @PostMapping("/book-a-room")
-    public int bookARoom(@RequestBody Booking booking){
+    public int bookARoom(@RequestBody Booking booking) {
 
         //The booking object coming from postman will have all the attributes except bookingId and amountToBePaid;
         //Have bookingId as a random UUID generated String
@@ -90,54 +86,53 @@ public class HotelManagementController {
         String bookingId = UUID.randomUUID().toString();
         booking.setBookingId(bookingId);
 
-        Hotel hotel = hotel.get(booking.getHotelName());
-        int roomsAvailable = hotel.getRoomsAvailable();
+        Hotel hotel = Hotel.getHotels().get(booking.getHotelName());
+        int roomsAvailable = hotel.getAvailableRooms();
         int roomsBooked = booking.getNoOfRooms();
 
         if (roomsBooked > roomsAvailable) {
             return -1;
         }
 
-        hotel.setRoomsAvailable(roomsAvailable - roomsBooked);
-        hotel.put(booking.getHotelName(), hotel);
+        hotel.setAvailableRooms(roomsAvailable - roomsBooked);
+        Hotel.getHotels().put(hotel.getHotelName(), hotel);
 
         double amountToBePaid = roomsBooked * hotel.getPricePerNight();
         booking.setAmountToBePaid((int) amountToBePaid);
 
-        getBookings().put(bookingId, booking);
+        Booking.getBookings().put(bookingId, (Hotel) getBookings());
 
         return (int) amountToBePaid;
     }
 
     @GetMapping("/get-bookings-by-a-person/{aadharCard}")
-    public List<String> getBookings()
-    {
+    public List<String> getBookings() {
         //In this function return the bookings done by a person
-        List<String> bookings = new ArrayList<>();
+        List<Booking> bookings = bookingRepository.findByUserAadharCardNo();
+        List<String> bookingIds = new ArrayList<>();
 
-        for (Booking booking : bookings.values()) {
-            Object aadharCard = null;
-            if (booking.getAadharCardNo().equals(aadharCard)) {
-                bookings.add(booking.getBookingId());
-            }
+        for (Booking booking : bookings) {
+            bookingIds.add(booking.getBookingId());
         }
-        return bookings;
+
+        return bookingIds;
     }
 
     @PutMapping("/update-facilities")
-    public Hotel updateFacilities(List<Facility> newFacilities,String hotelName){
+    public Hotel updateFacilities(List<Facility> newFacilities, String hotelName) {
 
         //We are having a new facilites that a hotel is planning to bring.
         //If the hotel is already having that facility ignore that facility otherwise add that facility in the hotelDb
         //return the final updated List of facilities and also update that in your hotelDb
         //Note that newFacilities can also have duplicate facilities possible
-        Hotel hotel = Hotel.get(hotelName);
+        Booking booking = null;
+        Hotel hotel = Hotel.get(booking.getHotelName());
 
         for (Facility facility : newFacilities) {
             if (!hotel.getFacilities().contains(facility)) {
                 hotel.getFacilities().add(facility);
             }
         }
+        return hotel;
     }
-
 }
