@@ -113,16 +113,12 @@ public class HotelManagementController<BookingRepository, aadharCardNo> {
     @GetMapping("/get-bookings-by-a-person/{aadharCard}")
     public List<String> getBookings() {
         // In this function, return the bookings done by a person
-
-        Object bookingRepository = new Object();
-        List<String> bookings = getBookings();
-        List<String> bookingIds = new ArrayList<>();
-
-        for (String booking : bookings) {
-            bookingIds.add(booking);
-        }
-
-        return bookingIds;
+        User object = new User();
+        double aadharCard = object.getaadharCardNo();
+        String naam = object.getName();
+        List<String > lst = new ArrayList<>();
+        lst.add(naam);
+        return lst;
     }
 
     @PutMapping("/update-facilities")

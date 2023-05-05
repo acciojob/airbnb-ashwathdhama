@@ -81,7 +81,5 @@ public class Booking {
         this.amountToBePaid = amountToBePaid;
     }
 
-    public Object getAadharCardNo() {
-        return null;
-    }
+
 }
