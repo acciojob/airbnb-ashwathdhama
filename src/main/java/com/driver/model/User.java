@@ -36,6 +36,6 @@ public class User {
         this.age = age;
     }
 
-    public void put(Integer aadharCardNo, User user) {
+    public static void put(Integer aadharCardNo, User user) {
     }
 }

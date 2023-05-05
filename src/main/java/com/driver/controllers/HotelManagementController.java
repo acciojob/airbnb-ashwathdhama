@@ -4,6 +4,7 @@ import com.driver.model.Booking;
 import com.driver.model.Facility;
 import com.driver.model.Hotel;
 import com.driver.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -17,8 +18,9 @@ import static com.driver.model.Hotel.hotels;
 
 @RestController
 @RequestMapping("/hotel")
-public class HotelManagementController {
-
+public class HotelManagementController<BookingRepository, aadharCardNo> {
+    @Autowired
+       
 
     @PostMapping("/add-hotel")
     public String addHotel(@RequestBody Hotel hotel) {
@@ -37,12 +39,15 @@ public class HotelManagementController {
     }
 
     @PostMapping("/add-user")
-    public Integer addUser(@RequestBody User user) {
+    public <BookingRepository> Integer addUser(@RequestBody User user) {
 
         //You need to add a User Object to the database
         //Assume that user will always be a valid user and return the aadharCardNo of the user
+        BookingRepository bookingRepository = (BookingRepository) getBookings();
+
+
         Integer aadharCardNo = user.getaadharCardNo();
-        user.put(aadharCardNo, user);
+        User.put(aadharCardNo, user);
         return aadharCardNo;
 
 
@@ -107,8 +112,10 @@ public class HotelManagementController {
 
     @GetMapping("/get-bookings-by-a-person/{aadharCard}")
     public List<String> getBookings() {
-        //In this function return the bookings done by a person
-        List<Booking> bookings = bookingRepository.findByUserAadharCardNo();
+        // In this function, return the bookings done by a person
+
+        Object bookingRepository = new Object();
+        List<Booking> bookings = bookingRepository.toString(aadharCardNo);
         List<String> bookingIds = new ArrayList<>();
 
         for (Booking booking : bookings) {
