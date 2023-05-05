@@ -76,4 +76,8 @@ public class Booking {
     public void setAmountToBePaid(int amountToBePaid) {
         this.amountToBePaid = amountToBePaid;
     }
+
+    public Object getAadharCardNo() {
+        return null;
+    }
 }

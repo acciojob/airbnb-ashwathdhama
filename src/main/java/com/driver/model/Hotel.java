@@ -18,6 +18,9 @@ public class Hotel {
         this.pricePerNight = pricePerNight;
     }
 
+    public static Hotel get(String hotelName) {
+    }
+
     public String getHotelName() {
         return hotelName;
     }
@@ -48,5 +51,19 @@ public class Hotel {
 
     public void setPricePerNight(int pricePerNight) {
         this.pricePerNight = pricePerNight;
+    }
+
+    public boolean containsKey(String hotelName) {
+    }
+
+    public void put(String hotelName, Hotel hotel) {
+    }
+
+    public int getRoomsAvailable() {
+        return 0;
+    }
+
+    public void setRoomsAvailable(int i) {
+
     }
 }
