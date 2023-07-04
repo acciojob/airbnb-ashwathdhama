@@ -6,6 +6,7 @@ import com.driver.model.Facility;
 import com.driver.model.Hotel;
 import com.driver.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HotelManagementService {
@@ -30,5 +31,9 @@ public class HotelManagementService {
 
     public Hotel updateFacilities(List<Facility> newFacilities, String hotelName) {
         return hotelManagementRepository.updateFacilities(newFacilities, hotelName);
+    }
+
+    public int getBookings(Integer aadharCard) {
+        return hotelManagementRepository.getBookings(aadharCard);
     }
 }
