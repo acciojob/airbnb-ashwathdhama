@@ -11,7 +11,11 @@ public class User {
         this.name = name;
         this.age = age;
     }
-
+    public User(int aadharCardNo, String name, int age) {
+        this.aadharCardNo = aadharCardNo;
+        this.name = name;
+        this.age = age;
+    }
     public int getaadharCardNo() {
         return aadharCardNo;
     }
